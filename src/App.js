@@ -22,8 +22,6 @@ function App() {
       )
         .then((res) => res.json())
         .then((res) => {
-          console.log(currentPage, delay, repos, total);
-
           if (repos.length === 0) setTotal(res.total_count);
           setReppos([...res.items, ...repos]);
           setCurrentPage((prev) => prev + 1);
@@ -40,7 +38,7 @@ function App() {
     setLoader(true);
     setCurrentPage(1);
     setReppos([]);
-    // setDelay(2000);
+    setDelay(2000);
     setValue(e.target.value);
     searchRepos(e.target.value);
   }, []);
@@ -48,6 +46,7 @@ function App() {
   const handleClick = () => {
     setLoader(true);
     searchRepos(value);
+    setDelay(0);
   };
   return (
     <div className="App">
