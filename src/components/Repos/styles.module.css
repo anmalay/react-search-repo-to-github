@@ -1,0 +1,45 @@
+.repos {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
+}
+
+.repo {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  padding: 8px;
+  border: 1px solid rgb(212, 210, 210);
+}
+
+.image {
+  max-width: 40px;
+  max-height: 40px;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgb(154, 154, 255);
+  border: 1px solid blue;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.desc {
+  display: flex;
+  flex-direction: column;
+}
