@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
-
 import styles from "./styles.module.css";
 
 export function Search({ value, handleClick, total, handleChange, repos }) {
+  const amount = total - repos.length;
+
   return (
     <>
       <div className={styles.search}>
@@ -18,12 +18,13 @@ export function Search({ value, handleClick, total, handleChange, repos }) {
       {value && (
         <button
           type="button"
+          className={styles.loadBtn}
           onClick={handleClick}
           disabled={total === repos.length}
         >
-          {total - repos.length >= 5
-            ? `загрузить еще 5 из ${total - repos.length}`
-            : `загрузить еще ${total - repos.length}`}
+          {amount >= 5
+            ? `загрузить еще 5 из ${amount}`
+            : `загрузить еще ${amount}`}
         </button>
       )}
     </>

@@ -8,3 +8,9 @@
   height: 28px;
   width: 100%;
 }
+
+.loadBtn {
+  cursor: pointer;
+  height: 48px;
+  margin-bottom: 16px;
+}

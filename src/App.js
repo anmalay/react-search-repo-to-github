@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Repos } from "./components/Repos";
 import { Search } from "./components/Search";
 
@@ -15,15 +15,25 @@ function App() {
 
   const PER_PAGE = 5;
 
+  useEffect(() => {
+    setCurrentPage(1);
+    setReppos([]);
+    setDelay(2000);
+  }, [value]);
+
   const searchRepos = useDebounce(async (value) => {
     try {
-      await fetch(
+      if (value === "") return;
+
+      return await fetch(
         `https://api.github.com/search/repositories?q=${value}&per_page=${PER_PAGE}&page=${currentPage}`
       )
         .then((res) => res.json())
         .then((res) => {
           if (repos.length === 0) setTotal(res.total_count);
-          setReppos([...res.items, ...repos]);
+          setReppos(
+            currentPage === 1 ? [...res.items] : [...res.items, ...repos]
+          );
           setCurrentPage((prev) => prev + 1);
           if (delay) setDelay(0);
         });
@@ -34,19 +44,18 @@ function App() {
     }
   }, delay);
 
-  const handleChange = useCallback((e) => {
-    setLoader(true);
-    setCurrentPage(1);
-    setReppos([]);
-    setDelay(2000);
-    setValue(e.target.value);
-    searchRepos(e.target.value);
-  }, []);
+  const handleChange = useCallback(
+    (e) => {
+      setLoader(true);
+      setValue(e.target.value);
+      searchRepos(e.target.value);
+    },
+    [repos]
+  );
 
   const handleClick = () => {
     setLoader(true);
     searchRepos(value);
-    setDelay(0);
   };
   return (
     <div className="App">
@@ -61,7 +70,9 @@ function App() {
           handleChange={handleChange}
         />
 
-        {loader ? <span>LOADING</span> : <Repos repos={repos} />}
+        {loader && <span style={{ marginBottom: "24px" }}>LOADING</span>}
+
+        {repos.length !== 0 && <Repos repos={repos} />}
       </main>
     </div>
   );
