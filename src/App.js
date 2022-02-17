@@ -31,9 +31,7 @@ function App() {
         .then((res) => res.json())
         .then((res) => {
           if (repos.length === 0) setTotal(res.total_count);
-          setReppos(
-            currentPage === 1 ? [...res.items] : [...res.items, ...repos]
-          );
+          setReppos([...res.items, ...repos]);
           setCurrentPage((prev) => prev + 1);
           if (delay) setDelay(0);
         });
@@ -44,19 +42,17 @@ function App() {
     }
   }, delay);
 
-  const handleChange = useCallback(
-    (e) => {
-      setLoader(true);
-      setValue(e.target.value);
-      searchRepos(e.target.value);
-    },
-    [repos]
-  );
+  const handleChange = useCallback(async (e) => {
+    setLoader(true);
+    setValue(e.target.value);
+    searchRepos(e.target.value);
+  }, []);
 
   const handleClick = () => {
     setLoader(true);
     searchRepos(value);
   };
+
   return (
     <div className="App">
       <header className="App-header"></header>
